@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Services;
+namespace App\Infra;
 
 final class Store
 {
@@ -26,25 +26,5 @@ final class Store
         @unlink(sys_get_temp_dir() . '/bank_store.json');
     }
 
-    public static function get(string $id): ?int
-    {
-        $a = self::read();
-        return array_key_exists($id, $a) ? (int)$a[$id] : null;
-    }
-
-    public static function set(string $id, int $value): void
-    {
-        $a = self::read();
-        $a[$id] = $value;
-        self::write($a);
-    }
-
-    public static function inc(string $id, int $delta): int
-    {
-        $a = self::read();
-        $a[$id] = (int)($a[$id] ?? 0) + $delta;
-        self::write($a);
-        return (int)$a[$id];
-    }
 }
 

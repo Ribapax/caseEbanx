@@ -36,14 +36,6 @@ function route(string|array $method, string $pattern, callable $handler, array $
     ];
 }
 
-function group(string $prefix, callable $fn): void {
-    global $__GROUP_PREFIX;
-    $prev = $__GROUP_PREFIX;
-    $__GROUP_PREFIX = normalize_pattern($prev . '/' . ltrim($prefix, '/'));
-    $fn();
-    $__GROUP_PREFIX = $prev;
-}
-
 function dispatch(string $basePath = ''): void {
     global $__ROUTES;
 

@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace App;
-
+// Classe de apoio para as respostas da api
 final class Http
 {
     public static function json(mixed $data, int $status = 200): never

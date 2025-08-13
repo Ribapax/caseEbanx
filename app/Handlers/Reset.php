@@ -4,13 +4,15 @@ declare(strict_types=1);
 namespace App\Handlers;
 
 use App\Http;
-use App\Services\Store;
+use App\Application\AccountService;
 
 final class Reset
 {
+    public function __construct(private AccountService $svc) {}
+
     public function __invoke(): void
     {
-        Store::reset();
+        $this->svc->reset();
         Http::text('OK', 200);
     }
 }
