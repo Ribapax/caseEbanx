@@ -8,7 +8,7 @@ final class Store
 
     public static function read(): array
     {
-        $path = sys_get_temp_dir() . '/bank_store.json';
+        $path = sys_get_temp_dir() . '/bankData.json';
         if (!is_file($path)) return [];
         $json = @file_get_contents($path) ?: '';
         $arr = json_decode($json, true);
@@ -17,13 +17,13 @@ final class Store
 
     public static function write(array $accounts): void
     {
-        $path = sys_get_temp_dir() . '/bank_store.json';
+        $path = sys_get_temp_dir() . '/bankData.json';
         @file_put_contents($path, json_encode($accounts, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES));
     }
 
     public static function reset(): void
     {
-        @unlink(sys_get_temp_dir() . '/bank_store.json');
+        @unlink(sys_get_temp_dir() . '/bankData.json');
     }
 
 }

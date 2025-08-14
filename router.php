@@ -1,11 +1,12 @@
 <?php
 declare(strict_types=1);
 
+use App\Http;
+
 /**
  * Mini roteador funcional, sem dependências.
  * Suporta:
  *  - route('GET', '/users/{id}', callback, ['constraints'=>['id'=>'\d+']])
- *  - group('/v1', fn() => route(...))
  *  - dispatch(); // executa a rota
  */
 
@@ -82,10 +83,10 @@ function dispatch(string $basePath = ''): void {
 
     if ($pathMatched && !empty($allowedForPath)) {
         header('Allow: ' . implode(', ', array_unique($allowedForPath)));
-        json(['error' => 'Método não permitido'], 405);
+        Http::json(['error' => 'Método não permitido'], 405);
     }
 
-    json(['error' => 'Rota não encontrada'], 404);
+    Http::json(['error' => 'Rota não encontrada'], 404);
 }
 
 /* -------------------- Helpers -------------------- */
@@ -113,12 +114,3 @@ function compile_pattern(string $pattern, array $constraints): string {
 
     return '#^' . $rx . '$#';
 }
-
-function json(mixed $data, int $status = 200, array $headers = []): never {
-    http_response_code($status);
-    header('Content-Type: application/json; charset=utf-8');
-    foreach ($headers as $k => $v) header($k . ': ' . $v);
-    echo json_encode($data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-    exit;
-}
-
